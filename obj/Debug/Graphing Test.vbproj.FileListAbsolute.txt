@@ -15,10 +15,10 @@ C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\bin\Debug\Graphing T
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\bin\Debug\Graphing Test.pdb
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\bin\Debug\Graphing Test.xml
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing Test.vbprojAssemblyReference.cache
-C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing_Test.Form1.resources
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing_Test.Resources.resources
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing Test.vbproj.GenerateResource.cache
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing Test.vbproj.CoreCompileInputs.cache
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing Test.exe
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing Test.xml
 C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing Test.pdb
+C:\Users\Ryan Comerford\Documents\GitHub\graphingcalculator\obj\Debug\Graphing_Test.graphForm.resources
