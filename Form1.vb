@@ -9,18 +9,17 @@
         If Not String.IsNullOrEmpty(txtEquation.Text) Then
             e.Graphics.SmoothingMode = If(chkAntialiasing.Checked, Drawing2D.SmoothingMode.AntiAlias, Drawing2D.SmoothingMode.None)
 
-            Dim xSetLowerBound As Integer = Integer.Parse(txtLowerBound.Text),
-                xSetUpperBound As Integer = Integer.Parse(txtUpperBound.Text)
+            Dim xSetLowerBound As Integer = Integer.Parse(txtXLowerBound.Text),
+                xSetUpperBound As Integer = Integer.Parse(txtXUpperBound.Text)
 
-            paintAxisGridLines(e, pbxGraph.Size, xSetLowerBound, xSetUpperBound, xSetLowerBound, xSetUpperBound)
-            painGraphFromExpression(txtEquation.Text, e, pbxGraph.Size, xSetLowerBound, xSetUpperBound, xSetLowerBound, xSetUpperBound)
+            Dim ySetLowerBound As Integer = Integer.Parse(txtYLowerBound.Text),
+                ySetUpperBound As Integer = Integer.Parse(txtYUpperBound.Text)
+
+            paintAxisGridLines(e, pbxGraph.Size, xSetLowerBound, xSetUpperBound, ySetLowerBound, ySetUpperBound)
+            painGraphFromExpression(txtEquation.Text, e, pbxGraph.Size, xSetLowerBound, xSetUpperBound, ySetLowerBound, ySetUpperBound)
         End If
 
         e.Graphics.DrawRectangle(brdrPen, 0, 0, pbxGraph.Width - 1, pbxGraph.Height - 1)
-    End Sub
-
-    Private Sub txtLowerBound_TextChanged(sender As Object, e As EventArgs) Handles txtLowerBound.TextChanged
-        txtUpperBound.Text = Math.Abs(Integer.Parse(txtLowerBound.Text))
     End Sub
 
     Private Sub btnGraph_Click(sender As Object, e As EventArgs) Handles btnGraph.Click
@@ -31,26 +30,26 @@
         ByVal painObject As PaintEventArgs,
         ByVal boxControlSize As Size,
         ByVal xLowerBound As Integer,
-        ByVal xHigherBound As Integer,
+        ByVal xUpperBound As Integer,
         ByVal yLowerBound As Integer,
-        ByVal yHigherBound As Integer
+        ByVal yUpperBound As Integer
     )
-        Dim xDifference As Integer = xHigherBound - xLowerBound
-        Dim yDifference As Integer = yHigherBound - yLowerBound
+        Dim xDifference As Integer = xUpperBound - xLowerBound
+        Dim yDifference As Integer = yUpperBound - yLowerBound
 
-        For x = xLowerBound To xHigherBound
-            Dim xAdj As Integer = adjustPointValue(x, xDifference, boxControlSize.Width)
+        Dim ix = 0
+        For x = xLowerBound To xUpperBound Step 1
+            Dim xAdj As Integer = ((1 / xDifference) * ix) * boxControlSize.Width
             painObject.Graphics.DrawLine(If(x = 0, Me.axisPen, Me.gridPen), xAdj, 0, xAdj, boxControlSize.Height)
+            ix += 1
         Next
 
-        For y = yLowerBound To yHigherBound
-            Dim yAdj As Integer = adjustPointValue(y, yDifference, boxControlSize.Height)
+        Dim iy = 0
+        For y = yUpperBound To yLowerBound Step -1
+            Dim yAdj As Integer = ((1 / yDifference) * iy) * boxControlSize.Height
             painObject.Graphics.DrawLine(If(y = 0, Me.axisPen, Me.gridPen), 0, yAdj, boxControlSize.Width, yAdj)
+            iy += 1
         Next
-
-        ' AXIS LINES
-        painObject.Graphics.DrawLine(Me.axisPen, adjustPointValue(0, xDifference, boxControlSize.Width), 0, adjustPointValue(0, xDifference, boxControlSize.Width), boxControlSize.Height)
-        painObject.Graphics.DrawLine(Me.axisPen, 0, adjustPointValue(0, yDifference, boxControlSize.Height), boxControlSize.Width, adjustPointValue(0, yDifference, boxControlSize.Height))
     End Sub
 
     Public Sub painGraphFromExpression(
@@ -58,22 +57,22 @@
         ByVal painObject As PaintEventArgs,
         ByVal boxControlSize As Size,
         ByVal xLowerBound As Integer,
-        ByVal xHigherBound As Integer,
+        ByVal xUpperBound As Integer,
         ByVal yLowerBound As Integer,
-        ByVal yHigherBound As Integer
+        ByVal yUpperBound As Integer
     )
-        Dim xDifference As Integer = xHigherBound - xLowerBound
-        Dim yDifference As Integer = yHigherBound - yLowerBound
+        Dim xDifference As Integer = xUpperBound - xLowerBound
+        Dim yDifference As Integer = yUpperBound - yLowerBound
 
         Dim arrGraphPoints(xDifference) As Point
 
         Dim i As Integer = 0
-        For x = xLowerBound To xHigherBound
+        For x = xLowerBound To xUpperBound
 
             Dim y As Integer = tryCalcYValue(expression, x)
 
-            Dim xAdj As Integer = adjustPointValue(x, xDifference, boxControlSize.Width),
-                yAdj As Integer = adjustPointValue(y, yDifference, boxControlSize.Height)
+            Dim xAdj As Integer = adjustPointValue(x, "x", xLowerBound, xUpperBound, boxControlSize.Width),
+                yAdj As Integer = adjustPointValue(y, "y", yLowerBound, yUpperBound, boxControlSize.Height)
 
             arrGraphPoints(i) = New Point(xAdj, yAdj)
 
@@ -83,15 +82,6 @@
         painObject.Graphics.DrawCurve(Me.mainPen, arrGraphPoints)
     End Sub
 
-    Public Function adjustPointValue(
-        ByVal val As Integer,
-        ByVal axisDifference As Integer,
-        ByVal controlAxisSize As Integer
-    )
-        Dim res As Integer = (controlAxisSize / 2) - ((val / axisDifference) * controlAxisSize)
-        Return res
-    End Function
-
     Public Function tryCalcYValue(
         ByVal fn As String,
         ByVal x As Integer
@@ -99,7 +89,7 @@
         Dim y As Integer
 
         Try
-            y = New DataTable().Compute(fn.ToLower().Replace("x", Str(-x)), Nothing)
+            y = New DataTable().Compute(fn.ToLower().Replace("x", Str(x)), Nothing)
         Catch ex As Exception
             MsgBox("Invalid function. TEMP action: Closing application") ' TEMP FIXME please
             End
@@ -107,6 +97,28 @@
         End Try
 
         Return y
+    End Function
+
+    Public Function adjustPointValue(
+        ByVal val As Integer,
+        ByVal axis As String,
+        ByVal axisUpperBound As Integer,
+        ByVal axisLowerBound As Integer,
+        ByVal controlAxisSize As Integer
+    )
+        Dim axisDifference As Integer = axisUpperBound - axisLowerBound,
+            numerator As Integer,
+            res As Integer
+
+        If axis = "x" Then
+            numerator = axisUpperBound - (axisUpperBound + axisLowerBound)
+            res = (controlAxisSize - ((numerator / axisDifference) * controlAxisSize)) + ((val / axisDifference) * controlAxisSize)
+        ElseIf axis = "y" Then
+            numerator = axisUpperBound - (axisUpperBound + axisLowerBound)
+            res = (controlAxisSize - ((1 - (numerator / axisDifference)) * controlAxisSize)) + ((val / axisDifference) * controlAxisSize)
+        End If
+
+        Return res
     End Function
 
 End Class

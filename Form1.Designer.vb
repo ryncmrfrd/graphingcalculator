@@ -27,10 +27,14 @@ Partial Class graphForm
         Me.pbxGraph = New System.Windows.Forms.PictureBox()
         Me.lblEquation = New System.Windows.Forms.Label()
         Me.lblLowerBound = New System.Windows.Forms.Label()
-        Me.txtLowerBound = New System.Windows.Forms.TextBox()
+        Me.txtXLowerBound = New System.Windows.Forms.TextBox()
         Me.lblUpperBound = New System.Windows.Forms.Label()
-        Me.txtUpperBound = New System.Windows.Forms.TextBox()
+        Me.txtXUpperBound = New System.Windows.Forms.TextBox()
         Me.chkAntialiasing = New System.Windows.Forms.CheckBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtYUpperBound = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.txtYLowerBound = New System.Windows.Forms.TextBox()
         CType(Me.pbxGraph, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -40,6 +44,7 @@ Partial Class graphForm
         Me.txtEquation.Name = "txtEquation"
         Me.txtEquation.Size = New System.Drawing.Size(100, 20)
         Me.txtEquation.TabIndex = 5
+        Me.txtEquation.Text = "x"
         '
         'btnGraph
         '
@@ -73,34 +78,34 @@ Partial Class graphForm
         Me.lblLowerBound.AutoSize = True
         Me.lblLowerBound.Location = New System.Drawing.Point(515, 9)
         Me.lblLowerBound.Name = "lblLowerBound"
-        Me.lblLowerBound.Size = New System.Drawing.Size(73, 13)
+        Me.lblLowerBound.Size = New System.Drawing.Size(83, 13)
         Me.lblLowerBound.TabIndex = 0
-        Me.lblLowerBound.Text = "Lower Bound:"
+        Me.lblLowerBound.Text = "X Lower Bound:"
         '
-        'txtLowerBound
+        'txtXLowerBound
         '
-        Me.txtLowerBound.Location = New System.Drawing.Point(518, 25)
-        Me.txtLowerBound.Name = "txtLowerBound"
-        Me.txtLowerBound.Size = New System.Drawing.Size(100, 20)
-        Me.txtLowerBound.TabIndex = 1
-        Me.txtLowerBound.Text = "-25"
+        Me.txtXLowerBound.Location = New System.Drawing.Point(518, 25)
+        Me.txtXLowerBound.Name = "txtXLowerBound"
+        Me.txtXLowerBound.Size = New System.Drawing.Size(100, 20)
+        Me.txtXLowerBound.TabIndex = 1
+        Me.txtXLowerBound.Text = "-5"
         '
         'lblUpperBound
         '
         Me.lblUpperBound.AutoSize = True
         Me.lblUpperBound.Location = New System.Drawing.Point(515, 48)
         Me.lblUpperBound.Name = "lblUpperBound"
-        Me.lblUpperBound.Size = New System.Drawing.Size(73, 13)
+        Me.lblUpperBound.Size = New System.Drawing.Size(83, 13)
         Me.lblUpperBound.TabIndex = 2
-        Me.lblUpperBound.Text = "Upper Bound:"
+        Me.lblUpperBound.Text = "X Upper Bound:"
         '
-        'txtUpperBound
+        'txtXUpperBound
         '
-        Me.txtUpperBound.Location = New System.Drawing.Point(518, 64)
-        Me.txtUpperBound.Name = "txtUpperBound"
-        Me.txtUpperBound.Size = New System.Drawing.Size(100, 20)
-        Me.txtUpperBound.TabIndex = 3
-        Me.txtUpperBound.Text = "25"
+        Me.txtXUpperBound.Location = New System.Drawing.Point(518, 64)
+        Me.txtXUpperBound.Name = "txtXUpperBound"
+        Me.txtXUpperBound.Size = New System.Drawing.Size(100, 20)
+        Me.txtXUpperBound.TabIndex = 3
+        Me.txtXUpperBound.Text = "20"
         '
         'chkAntialiasing
         '
@@ -114,17 +119,55 @@ Partial Class graphForm
         Me.chkAntialiasing.Text = "Antialiasing?"
         Me.chkAntialiasing.UseVisualStyleBackColor = True
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(515, 152)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(83, 13)
+        Me.Label1.TabIndex = 10
+        Me.Label1.Text = "Y Upper Bound:"
+        '
+        'txtYUpperBound
+        '
+        Me.txtYUpperBound.Location = New System.Drawing.Point(518, 168)
+        Me.txtYUpperBound.Name = "txtYUpperBound"
+        Me.txtYUpperBound.Size = New System.Drawing.Size(100, 20)
+        Me.txtYUpperBound.TabIndex = 11
+        Me.txtYUpperBound.Text = "25"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(515, 113)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(83, 13)
+        Me.Label2.TabIndex = 8
+        Me.Label2.Text = "Y Lower Bound:"
+        '
+        'txtYLowerBound
+        '
+        Me.txtYLowerBound.Location = New System.Drawing.Point(518, 129)
+        Me.txtYLowerBound.Name = "txtYLowerBound"
+        Me.txtYLowerBound.Size = New System.Drawing.Size(100, 20)
+        Me.txtYLowerBound.TabIndex = 9
+        Me.txtYLowerBound.Text = "-25"
+        '
         'graphForm
         '
         Me.AcceptButton = Me.btnGraph
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(624, 521)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.txtYUpperBound)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.txtYLowerBound)
         Me.Controls.Add(Me.chkAntialiasing)
         Me.Controls.Add(Me.lblUpperBound)
-        Me.Controls.Add(Me.txtUpperBound)
+        Me.Controls.Add(Me.txtXUpperBound)
         Me.Controls.Add(Me.lblLowerBound)
-        Me.Controls.Add(Me.txtLowerBound)
+        Me.Controls.Add(Me.txtXLowerBound)
         Me.Controls.Add(Me.lblEquation)
         Me.Controls.Add(Me.pbxGraph)
         Me.Controls.Add(Me.btnGraph)
@@ -142,8 +185,12 @@ Partial Class graphForm
     Friend WithEvents pbxGraph As PictureBox
     Friend WithEvents lblEquation As Label
     Friend WithEvents lblLowerBound As Label
-    Friend WithEvents txtLowerBound As TextBox
+    Friend WithEvents txtXLowerBound As TextBox
     Friend WithEvents lblUpperBound As Label
-    Friend WithEvents txtUpperBound As TextBox
+    Friend WithEvents txtXUpperBound As TextBox
     Friend WithEvents chkAntialiasing As CheckBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents txtYUpperBound As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents txtYLowerBound As TextBox
 End Class
