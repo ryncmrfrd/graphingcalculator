@@ -12,6 +12,10 @@
         ySetLowerBound As Integer = -25,
         ySetUpperBound As Integer = 25
 
+    ' Experimental option for paintGraphFromExpression for loop step amount.
+    ' TODO add to UI (when working properly).
+    Dim paintGraphXStep As Double = 1
+
     ' Handle move axis buttons (btn{X/Y}{Plus/Minus})
     Private Sub boundButtons_Click(sender As Object, e As EventArgs) Handles btnXPlus.Click, btnXMinus.Click, btnYPlus.Click, btnYMinus.Click
         Dim controlName As String = DirectCast(sender, System.Windows.Forms.Button).Name
@@ -85,7 +89,7 @@
             End If
 
             paintAxisGridLines(e, pbxGraph.Size, xSetLowerBound, xSetUpperBound, ySetLowerBound, ySetUpperBound)
-            painGraphFromExpression(txtEquation.Text, e, pbxGraph.Size, xSetLowerBound, xSetUpperBound, ySetLowerBound, ySetUpperBound)
+            paintGraphFromExpression(txtEquation.Text, e, pbxGraph.Size, xSetLowerBound, xSetUpperBound, ySetLowerBound, ySetUpperBound)
         End If
 
         e.Graphics.DrawRectangle(brdrPen, 0, 0, pbxGraph.Width - 1, pbxGraph.Height - 1)
@@ -146,7 +150,7 @@
     End Sub
 
     ' Create array of x,y points then draw curve based on array.
-    Public Sub painGraphFromExpression(
+    Public Sub paintGraphFromExpression(
         ByVal expression As String,
         ByVal painObject As PaintEventArgs,
         ByVal boxControlSize As Size,
@@ -158,15 +162,17 @@
         Dim xDifference As Integer = xUpperBound - xLowerBound
         Dim yDifference As Integer = yUpperBound - yLowerBound
 
-        Dim arrGraphPoints(xDifference) As Point
+        'MsgBox(xDifference * 11)
+
+        Dim arrGraphPoints((1 / paintGraphXStep) * xDifference) As Point
 
         Dim i As Integer = 0
-        For x = xLowerBound To xUpperBound
+        For x As Double = xLowerBound To xUpperBound Step paintGraphXStep
 
-            Dim y As Integer = tryCalcYValue(expression, x)
+            Dim y As Double = tryCalcYValue(expression, x)
 
-            Dim xAdj As Integer = adjustPointValue(x, "x", xLowerBound, xUpperBound, boxControlSize.Width),
-                yAdj As Integer = adjustPointValue(y, "y", yLowerBound, yUpperBound, boxControlSize.Height)
+            Dim xAdj As Double = adjustPointValue(x, "x", xLowerBound, xUpperBound, boxControlSize.Width),
+                yAdj As Double = adjustPointValue(y, "y", yLowerBound, yUpperBound, boxControlSize.Height)
 
             arrGraphPoints(i) = New Point(xAdj, yAdj)
 
@@ -179,9 +185,9 @@
     ' Try structure wrapping call of mcCalc class to evaluate string as mathematical expression.
     Public Function tryCalcYValue(
         ByVal fn As String,
-        ByVal x As Integer
+        ByVal x As Double
     )
-        Dim y As Integer
+        Dim y As Double
 
         Try
             Dim calc As New mcCalc()
